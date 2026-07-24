@@ -20,6 +20,7 @@ RUN npm run build
 RUN mkdir -p /app/data /app/public/uploads
 
 ENV NODE_ENV=production
-EXPOSE 3000
+ENV PORT=80
+EXPOSE 80
 
 CMD ["npm", "run", "start"]
