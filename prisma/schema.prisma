@@ -9,13 +9,13 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "mysql"
 }
 
 model Product {
   id          String   @id @default(cuid())
   title       String
-  description String
+  description String   @db.Text
   price       Int
   cost        Int?
   category    String
