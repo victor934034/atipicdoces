@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { mkdir, writeFile } from "fs/promises";
 import path from "path";
 import crypto from "crypto";
+import { getUploadsDir } from "@/lib/uploads";
 
 const ALLOWED_TYPES: Record<string, string> = {
   "image/jpeg": "jpg",
@@ -29,12 +30,12 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Imagem muito grande (máx. 5MB)" }, { status: 400 });
   }
 
-  const uploadsDir = path.join(process.cwd(), "public", "uploads");
+  const uploadsDir = getUploadsDir();
   await mkdir(uploadsDir, { recursive: true });
 
   const filename = `${crypto.randomUUID()}.${extension}`;
   const buffer = Buffer.from(await file.arrayBuffer());
   await writeFile(path.join(uploadsDir, filename), buffer);
 
-  return NextResponse.json({ url: `/uploads/${filename}` });
+  return NextResponse.json({ url: `/api/uploads/${filename}` });
 }

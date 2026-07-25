@@ -16,8 +16,9 @@ COPY . .
 RUN npx prisma generate
 RUN npm run build
 
-# Persisted across deploys via volumes mounted at these paths (configure in Easypanel)
-RUN mkdir -p /app/data /app/public/uploads
+# Persisted across deploys via a single volume mounted at /app/data
+# (configure DATABASE_URL=file:/app/data/dev.db and UPLOADS_DIR=/app/data/uploads)
+RUN mkdir -p /app/data/uploads
 
 ENV NODE_ENV=production
 ENV PORT=80
